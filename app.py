@@ -70,6 +70,9 @@ Started with circuits and VLSI → grew passionate about coding, AI/ML, and full
 - Tech Talks & Tea (industry + alumni sessions).
 - Mentor Bridge (connecting juniors & seniors).
 
+**WHY DID I MAKE THIS:**
+-This is my idea to the creative assignment for Google Student Ambassador Program.
+
 **PROJECTS:**
 - RideRay (Campus Ride-Sharing App): Vue.js, Tailwind, Google Maps, Laravel, Sanctum, WebSockets.
 - VLSI Project: 32-bit Kogge-Stone Adder using PTL (Cadence ASIC design).
