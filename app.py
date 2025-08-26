@@ -114,7 +114,7 @@ PROFILE INFORMATION:
 # SIDEBAR
 # ------------------------
 with st.sidebar:
-    st.image("https://i.imgur.com/gL4KZc2.jpeg", width=150)
+    #st.image("https://i.imgur.com/gL4KZc2.jpeg", width=150)
     st.title("R J Benjamin Robert")
     st.markdown("**ECE Final Year | Tech Community Lead**")
     st.markdown("Sathyabama Institute of Science and Technology")
@@ -127,8 +127,8 @@ with st.sidebar:
 # ------------------------
 # MAIN CONTENT
 # ------------------------
-st.title("🤖 Google-Themed AI Assistant")
-st.markdown("### Ask me anything about Benjamin Robert!")
+st.title("🤖 AI-Powered-Me")
+st.markdown("### Ask me anything about Benjamin Robert(Me)!")
 st.divider()
 
 # ------------------------
