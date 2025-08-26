@@ -2,13 +2,59 @@ import streamlit as st
 import google.generativeai as genai
 
 # --- PAGE CONFIGURATION ---
-# This should be the first Streamlit command in your script
 st.set_page_config(
-    page_title="R J Benjamin Robert | GDSC Application",
+    page_title="R J Benjamin Robert | AI Assistant",
     page_icon="👨‍💻",
     layout="wide",
-    initial_sidebar_state="expanded" # Keep the sidebar open initially
+    initial_sidebar_state="expanded"
 )
+
+# --- CUSTOM CSS FOR GLASSMORPHISM AND STYLING ---
+# This is where we inject the CSS for the glass effect and background image.
+css = """
+<style>
+    /* Main app background */
+    [data-testid="stAppViewContainer"] > .main {
+        background-image: url("https://tips.clip-studio.com/en-us/articles/10736");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* Sidebar glass effect */
+    [data-testid="stSidebar"] {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Main chat container glass effect */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 1rem; /* Rounded corners */
+        padding: 1rem; /* Add some padding inside */
+    }
+    
+    /* Chat message bubbles */
+    [data-testid="stChatMessage"] {
+        background: rgba(240, 242, 246, 0.8); /* A slightly more opaque background for readability */
+        border-radius: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Hide the default "border=True" border */
+    .st-emotion-cache-1r4qj8v {
+        border: none;
+    }
+
+</style>
+"""
+st.markdown(css, unsafe_allow_html=True)
+
 
 # --- YOUR PERSONAL DATA (THE "BRAIN") ---
 my_data = """
@@ -26,7 +72,7 @@ I believe leadership is about enabling others to grow and empowering communities
 1.  **I am a good listener:** I break down complex tech concepts into simple explanations to encourage people to ask questions without fear.
 2.  **I am a proactive organizer:** As the Management Lead of Hack S.I.S.T., our university’s tech club, I have coordinated hackathons, workshops, and collaboration efforts with students and faculty.
 3.  **I am passionate about Google & modern technologies:** I’ve explored tools like Firebase, Flutter, Google Cloud, and Maps APIs. My curiosity drives me to not only learn but also teach others.
-4.  **I am the tech lead of DSC Sathyabama which was formerly GDSC.
+4.  **I am the tech lead of DSC Sathyabama**, which was formerly GDSC, giving me direct experience with the community's goals.
 
 **MY VISION & ACTION PLAN FOR STUDENT COMMUNITIES:**
 -   **Code School Series:** Consistent, beginner-friendly workshops on one technology per month (Python, Web Dev, ML intro).
@@ -52,7 +98,7 @@ I believe leadership is about enabling others to grow and empowering communities
 -   **Soft Skills:** Public Speaking, Team Leadership, Event & Club Management, Community Building, Mentoring
 
 **HIGHLIGHTS & ACHIEVEMENTS:**
--   **Leadership:** Management Lead at Hack S.I.S.T.
+-   **Leadership:** Management Lead at Hack S.I.S.T. & Tech Lead at DSC Sathyabama.
 -   **Innovation:** Built RideRay, a full-stack real-time ride-sharing app.
 -   **Research:** Final-year VLSI project on advanced adder architectures.
 -   **Career Prep:** Actively preparing for the Virtusa 2025 campus drive.
@@ -77,19 +123,21 @@ Now, please answer the user's question based on the above information.
 """
 
 # --- SIDEBAR CONTENT ---
-#st.sidebar.image("https://i.imgur.com/example.png", width=150) # IMPORTANT: Replace this with a URL to your photo
-st.sidebar.title("R J Benjamin Robert")
-st.sidebar.markdown("**Final Year, Electronics & Communication**")
-st.sidebar.markdown("Sathyabama Institute of Science and Technology, Chennai")
-st.sidebar.write("---")
-st.sidebar.subheader("Quick Actions")
-st.sidebar.info("Ask me about his RideRay project, his leadership experience at Hack S.I.S.T., or his vision for the student community!")
+with st.sidebar:
+    st.image("https://i.imgur.com/example.png", width=150) # IMPORTANT: Replace with a URL to your professional photo
+    st.title("R J Benjamin Robert")
+    st.markdown("**ECE Final Year | Tech Community Lead**")
+    st.markdown("Sathyabama Institute of Science and Technology")
+    st.divider()
+    st.subheader("Example Questions")
+    st.info("💡 What is his vision for the student community?")
+    st.info("🚀 Tell me about the RideRay project.")
+    st.info("🤝 What is his leadership experience?")
+
 
 # --- MAIN PAGE CONTENT ---
-
-# Professional Header
-st.title("🤖 AI-Powered-Me")
-st.markdown("### Hello! I'm an AI assistant. Ask me anything about Benjamin Robert(Me).")
+st.title("🤖 Interactive AI Assistant")
+st.markdown("### I'm an AI trained on Benjamin's profile. Ask me anything!")
 st.divider()
 
 # The Chat Interface Container
@@ -102,7 +150,7 @@ with chat_container:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel('gemini-1.5-flash')
     except KeyError:
-        st.error("Deployment Error: The GOOGLE_API_KEY is not set in Streamlit secrets!")
+        st.error("Deployment Error: Please add your GOOGLE_API_KEY to the Streamlit secrets.")
         st.stop()
     except Exception as e:
         st.error(f"An error occurred: {e}")
@@ -115,7 +163,7 @@ with chat_container:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    if user_prompt := st.chat_input("What is his most impressive project?"):
+    if user_prompt := st.chat_input("Ask about his projects, skills, or vision..."):
         st.session_state.messages.append({"role": "user", "content": user_prompt})
         with st.chat_message("user"):
             st.markdown(user_prompt)
