@@ -1,0 +1,15 @@
+[theme]
+# The primary color for buttons and interactive elements
+primaryColor="#4285F4"  # Google Blue
+
+# The main background color
+backgroundColor="#FFFFFF" # White
+
+# The color for text
+textColor="#212121" # Dark Gray
+
+# The color of the sidebar
+secondaryBackgroundColor="#F5F5F5" # Light Gray
+
+# Font style
+font="sans serif"
