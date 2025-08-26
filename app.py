@@ -4,57 +4,10 @@ import google.generativeai as genai
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="R J Benjamin Robert | AI Assistant",
-    page_icon="👨‍💻",
+    page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# --- CUSTOM CSS FOR GLASSMORPHISM AND STYLING ---
-# This is where we inject the CSS for the glass effect and background image.
-css = """
-<style>
-    /* Main app background */
-    [data-testid="stAppViewContainer"] > .main {
-        background-image: url("https://tips.clip-studio.com/en-us/articles/10736");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
-
-    /* Sidebar glass effect */
-    [data-testid="stSidebar"] {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        border-right: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* Main chat container glass effect */
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 1rem; /* Rounded corners */
-        padding: 1rem; /* Add some padding inside */
-    }
-    
-    /* Chat message bubbles */
-    [data-testid="stChatMessage"] {
-        background: rgba(240, 242, 246, 0.8); /* A slightly more opaque background for readability */
-        border-radius: 0.5rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    /* Hide the default "border=True" border */
-    .st-emotion-cache-1r4qj8v {
-        border: none;
-    }
-
-</style>
-"""
-st.markdown(css, unsafe_allow_html=True)
-
 
 # --- YOUR PERSONAL DATA (THE "BRAIN") ---
 my_data = """
@@ -124,7 +77,8 @@ Now, please answer the user's question based on the above information.
 
 # --- SIDEBAR CONTENT ---
 with st.sidebar:
-    st.image("https://i.imgur.com/example.png", width=150) # IMPORTANT: Replace with a URL to your professional photo
+    # This is a direct link to an image that will work. Replace it with your own direct image link.
+    st.image("https://i.imgur.com/gL4KZc2.jpeg", width=150)
     st.title("R J Benjamin Robert")
     st.markdown("**ECE Final Year | Tech Community Lead**")
     st.markdown("Sathyabama Institute of Science and Technology")
@@ -136,12 +90,12 @@ with st.sidebar:
 
 
 # --- MAIN PAGE CONTENT ---
-st.title("🤖 Interactive AI Assistant")
+st.title("🤖 AI-POWERED ME")
 st.markdown("### I'm an AI trained on Benjamin's profile. Ask me anything!")
 st.divider()
 
 # The Chat Interface Container
-chat_container = st.container(border=True)
+chat_container = st.container() # Using a simpler container without a border
 
 with chat_container:
     # --- CHATBOT LOGIC ---
