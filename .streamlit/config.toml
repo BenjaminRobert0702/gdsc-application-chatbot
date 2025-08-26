@@ -1,15 +1,17 @@
+# .streamlit/config.toml
+
 [theme]
-# The primary color for buttons and interactive elements
-primaryColor="#4285F4"  # Google Blue
+# The primary color for interactive elements
+primaryColor = "#4285F4"  # Official Google Blue
 
-# The main background color
-backgroundColor="#FFFFFF" # White
+# The main background of the app
+backgroundColor = "#FFFFFF" # Pure White for a clean look
 
-# The color for text
-textColor="#212121" # Dark Gray
+# The background for the sidebar and other secondary elements
+secondaryBackgroundColor = "#F0F2F6" # A very light, subtle gray
 
-# The color of the sidebar
-secondaryBackgroundColor="#F5F5F5" # Light Gray
+# The color for all text
+textColor = "#333333" # A dark gray instead of pure black for a softer feel
 
-# Font style
-font="sans serif"
+# The font family for the app
+font = "sans serif"
