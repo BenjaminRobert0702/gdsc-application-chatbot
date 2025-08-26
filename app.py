@@ -2,17 +2,18 @@ import streamlit as st
 import google.generativeai as genai
 
 # --- PAGE CONFIGURATION ---
+# This should be the first Streamlit command in your script
 st.set_page_config(
-    page_title="Chat with Benjamin's Application",
-    page_icon="🤖",
-    layout="wide"
+    page_title="R J Benjamin Robert | GDSC Application",
+    page_icon="👨‍💻",
+    layout="wide",
+    initial_sidebar_state="expanded" # Keep the sidebar open initially
 )
 
 # --- YOUR PERSONAL DATA (THE "BRAIN") ---
-# This is the complete knowledge base for the AI, based on the info you provided.
 my_data = """
 **FULL NAME:**
-Benjamin Robert
+R J Benjamin Robert
 
 **UNIVERSITY & MAJOR:**
 I am a final-year student at Sathyabama Institute of Science and Technology (SIST), Chennai, pursuing a degree in Electronics and Communication Engineering (ECE).
@@ -25,6 +26,7 @@ I believe leadership is about enabling others to grow and empowering communities
 1.  **I am a good listener:** I break down complex tech concepts into simple explanations to encourage people to ask questions without fear.
 2.  **I am a proactive organizer:** As the Management Lead of Hack S.I.S.T., our university’s tech club, I have coordinated hackathons, workshops, and collaboration efforts with students and faculty.
 3.  **I am passionate about Google & modern technologies:** I’ve explored tools like Firebase, Flutter, Google Cloud, and Maps APIs. My curiosity drives me to not only learn but also teach others.
+4.  **I am the tech lead of DSC Sathyabama which was formerly GDSC.
 
 **MY VISION & ACTION PLAN FOR STUDENT COMMUNITIES:**
 -   **Code School Series:** Consistent, beginner-friendly workshops on one technology per month (Python, Web Dev, ML intro).
@@ -60,7 +62,6 @@ I see myself as a bridge between electronics and computer science. My ECE backgr
 """
 
 # --- THE MASTER PROMPT ---
-# This is the core instruction set for the AI model.
 prompt_template = f"""
 You are a professional and enthusiastic AI assistant representing Benjamin Robert, a final-year ECE student and tech community leader.
 Your sole purpose is to answer questions about Benjamin based ONLY on the detailed information provided below.
@@ -75,61 +76,53 @@ Your tone should be helpful, clear, and reflect Benjamin's passion for technolog
 Now, please answer the user's question based on the above information.
 """
 
-# --- APP LAYOUT AND APPEARANCE ---
-# This section creates the visual interface of your web app.
-st.title("🤖 Chat with Benjamin's Application")
-st.write("Hello! I'm an AI assistant trained on Benjamin Robert's profile. Ask me about his skills, projects, leadership experience, or vision for the tech community.")
-st.write("---")
-
-# --- CHATBOT LOGIC ---
-# This is the core engine of your chatbot.
-
-# Initialize the chat model
-try:
-    # Get the API key from Streamlit's secrets management (for deployment)
-    api_key = st.secrets["GOOGLE_API_KEY"]
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
-except KeyError:
-    st.error("Deployment Error: The GOOGLE_API_KEY is not set in Streamlit secrets!")
-    st.stop()
-except Exception as e:
-    st.error(f"An error occurred while configuring the API: {e}")
-    st.stop()
-
-# Initialize chat history in the session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Display previous chat messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# Get user input from the chat box
-if user_prompt := st.chat_input("Ask about his RideRay project..."):
-    # Add user message to chat history and display it
-    st.session_state.messages.append({"role": "user", "content": user_prompt})
-    with st.chat_message("user"):
-        st.markdown(user_prompt)
-
-    # Get the model's response
-    full_prompt = prompt_template + "\nUser question: " + user_prompt
-    response = model.generate_content(full_prompt)
-    
-    # Add AI response to history and display it
-    with st.chat_message("assistant"):
-        st.markdown(response.text)
-    st.session_state.messages.append({"role": "assistant", "content": response.text})
-
-# --- SIDEBAR WITH EXTRA INFO ---
-# This adds a professional touch with quick info and suggested questions.
-st.sidebar.image("https://i.imgur.com/example.png", width=150) # IMPORTANT: Replace this with a URL to your photo
-st.sidebar.title("Benjamin Robert")
-st.sidebar.markdown("**Final Year, ECE**")
+# --- SIDEBAR CONTENT ---
+#st.sidebar.image("https://i.imgur.com/example.png", width=150) # IMPORTANT: Replace this with a URL to your photo
+st.sidebar.title("R J Benjamin Robert")
+st.sidebar.markdown("**Final Year, Electronics & Communication**")
 st.sidebar.markdown("Sathyabama Institute of Science and Technology, Chennai")
 st.sidebar.write("---")
-st.sidebar.subheader("Example Questions")
-st.sidebar.info("What is his most impressive project?")
-st.sidebar.info("What is his vision for the student community?")
-st.sidebar.info("How does his ECE background help him in software development?")
+st.sidebar.subheader("Quick Actions")
+st.sidebar.info("Ask me about his RideRay project, his leadership experience at Hack S.I.S.T., or his vision for the student community!")
+
+# --- MAIN PAGE CONTENT ---
+
+# Professional Header
+st.title("🤖 AI-Powered-Me")
+st.markdown("### Hello! I'm an AI assistant. Ask me anything about Benjamin Robert(Me).")
+st.divider()
+
+# The Chat Interface Container
+chat_container = st.container(border=True)
+
+with chat_container:
+    # --- CHATBOT LOGIC ---
+    try:
+        api_key = st.secrets["GOOGLE_API_KEY"]
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+    except KeyError:
+        st.error("Deployment Error: The GOOGLE_API_KEY is not set in Streamlit secrets!")
+        st.stop()
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        st.stop()
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if user_prompt := st.chat_input("What is his most impressive project?"):
+        st.session_state.messages.append({"role": "user", "content": user_prompt})
+        with st.chat_message("user"):
+            st.markdown(user_prompt)
+
+        full_prompt = prompt_template + "\nUser question: " + user_prompt
+        response = model.generate_content(full_prompt)
+        
+        with st.chat_message("assistant"):
+            st.markdown(response.text)
+        st.session_state.messages.append({"role": "assistant", "content": response.text})
